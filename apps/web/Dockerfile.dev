@@ -1,0 +1,10 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# We don't copy package.json right away in dev mode 
+# because we map the volume. But we install curl for healthchecks if needed.
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host"]

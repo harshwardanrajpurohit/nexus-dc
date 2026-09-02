@@ -1,0 +1,17 @@
+@"
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+
+digitaltwin.db
+*.db
+
+.vite/
+.DS_Store
+"@ | Set-Content .gitignore

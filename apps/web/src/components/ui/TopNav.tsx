@@ -9,7 +9,7 @@ import {
 import { useStore } from '../../store'
 
 export default function TopNav() {
-  const { telemetry, scenario } = useStore()
+  const { telemetry, scenario, activeAppTab, setActiveAppTab } = useStore()
 
   return (
     <header className="h-14 bg-[#0d1117]/95 backdrop-blur-md border-b border-[#21262d] px-4 flex items-center justify-between select-none z-30">
@@ -88,9 +88,46 @@ export default function TopNav() {
         </div>
       </div>
 
-      {/* 3. Operational Grid Status Badge */}
+      {/* 3. Operational Grid Status & View Mode Switcher */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#161b22] border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold">
+        {/* Tab switcher: 3D Twin vs Control Room vs REGEN-DC Optimizer */}
+        <div className="flex items-center p-1 rounded-lg bg-[#161b22] border border-[#30363d] text-xs font-mono">
+          <button
+            onClick={() => setActiveAppTab('3d')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded transition-all ${
+              activeAppTab === '3d'
+                ? 'bg-blue-600 text-white font-semibold shadow-sm'
+                : 'text-gray-400 hover:text-gray-200'
+            }`}
+          >
+            <Building className="w-3.5 h-3.5" />
+            <span>3D Facility</span>
+          </button>
+          <button
+            onClick={() => setActiveAppTab('operations')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded transition-all ${
+              activeAppTab === 'operations'
+                ? 'bg-cyan-600 text-white font-semibold shadow-sm'
+                : 'text-gray-400 hover:text-cyan-400'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Control Room</span>
+          </button>
+          <button
+            onClick={() => setActiveAppTab('optimization')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded transition-all ${
+              activeAppTab === 'optimization'
+                ? 'bg-emerald-600 text-white font-semibold shadow-sm'
+                : 'text-gray-400 hover:text-emerald-400'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span>REGEN-DC Optimizer</span>
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#161b22] border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold">
           <ShieldCheck className="w-4 h-4" />
           <span>{scenario === 'GRID_LOSS' ? '60MW GEN ACTIVE' : 'GRID 2N SYNC (99.999%)'}</span>
         </div>

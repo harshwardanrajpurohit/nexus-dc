@@ -167,6 +167,8 @@ export interface DigitalTwinState {
   setTourState: (state: TourState) => void;
   setTourIndex: (index: number) => void;
   setTourTargetId: (id: string | null) => void;
+  activeAppTab: '3d' | 'operations' | 'optimization';
+  setActiveAppTab: (tab: '3d' | 'operations' | 'optimization') => void;
   setTourProgress: (progress: number) => void;
   setIsTourPaused: (paused: boolean) => void;
   setTourDebugMode: (debug: boolean) => void;
@@ -222,6 +224,8 @@ export const useStore = create<DigitalTwinState>((set) => ({
     showOverheadTrays: true,
     flowTrace: 'none',
   },
+  activeAppTab: '3d',
+  setActiveAppTab: (activeAppTab) => set({ activeAppTab }),
   tourState: 'MOVING',
   tourIndex: 0,
   tourTargetId: null,

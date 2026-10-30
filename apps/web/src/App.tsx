@@ -9,8 +9,11 @@ import TimelineControls from './components/ui/TimelineControls'
 import InspectorDrawer from './components/ui/InspectorDrawer'
 import CampusMinimap from './components/ui/CampusMinimap'
 
+import OptimizationDashboard from './components/ui/OptimizationDashboard'
+import LiveOperationsDashboard from './components/ui/LiveOperationsDashboard'
+
 function App() {
-  const { setTelemetry } = useStore()
+  const { setTelemetry, activeAppTab } = useStore()
 
   useEffect(() => {
     const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws'
@@ -61,32 +64,40 @@ function App() {
       {/* 1. Top KPI Metrics Ribbon */}
       <TopNav />
 
-      {/* 2. Main 5-Building Campus 3D Facility Viewport (~85% of screen) */}
-      <div className="flex-1 flex relative overflow-hidden">
-        {/* Main 3D Canvas */}
-        <main className="flex-1 relative h-full bg-[#0f172a]">
-          {/* Floating Cutaway, Lighting & Failure Toolbar */}
-          <CutawayToolbar />
+      {/* 2. Main Content View: 3D Campus vs Control Room vs REGEN-DC Optimization Dashboard */}
+      {activeAppTab === 'optimization' ? (
+        <OptimizationDashboard />
+      ) : activeAppTab === 'operations' ? (
+        <LiveOperationsDashboard />
+      ) : (
+        <>
+          <div className="flex-1 flex relative overflow-hidden">
+            {/* Main 3D Canvas */}
+            <main className="flex-1 relative h-full bg-[#0f172a]">
+              {/* Floating Cutaway, Lighting & Failure Toolbar */}
+              <CutawayToolbar />
 
-          {/* Master 3D Scene */}
-          <Scene3D />
+              {/* Master 3D Scene */}
+              <Scene3D />
 
-          {/* Interactive 2D Radar Minimap with teleportation */}
-          <CampusMinimap />
+              {/* Interactive 2D Radar Minimap with teleportation */}
+              <CampusMinimap />
 
-          {/* Slide-over Component Inspector & Live Parameter Sliders */}
-          <InspectorDrawer />
-        </main>
+              {/* Slide-over Component Inspector & Live Parameter Sliders */}
+              <InspectorDrawer />
+            </main>
 
-        {/* Right Campus Facilities Navigator */}
-        <WaypointsPanel />
+            {/* Right Campus Facilities Navigator */}
+            <WaypointsPanel />
 
-        {/* Tour Overlay (Cinematic Mode) */}
-        <TourPanel />
-      </div>
+            {/* Tour Overlay (Cinematic Mode) */}
+            <TourPanel />
+          </div>
 
-      {/* 3. Bottom Timeline Scrubber & Scenarios */}
-      <TimelineControls />
+          {/* 3. Bottom Timeline Scrubber & Scenarios */}
+          <TimelineControls />
+        </>
+      )}
     </div>
   )
 }
